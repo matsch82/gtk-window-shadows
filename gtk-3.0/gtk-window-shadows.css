@@ -1,0 +1,38 @@
+/* gtk-window-shadows (GTK3): gray window border + macOS-like drop shadows.
+   A copy of the Yaru dark window rules (Ubuntu 24.04) with only border and shadow changed.
+   Note: GTK CSS has no !important - declarations that use it are dropped. */
+
+/* Window border (Yaru default: rgba(0, 0, 0, 0.75)).
+   Same as #77777777 - GTK3 does not accept 8-digit hex colors. */
+@define-color window_border_color rgba(119, 119, 119, 0.467);
+
+/* Drop shadow (Yaru default: 0 3px 9px 1px rgba(0, 0, 0, 0.5) active, 0 2px 6px 2px rgba(0, 0, 0, 0.2) inactive).
+   Geometry 0 10px 30px 2px for both states: GTK sizes the window from its shadow, so active and
+   inactive must have the same extents, or windows resize and jump on focus change.
+   Active: two stacked layers, because one layer cannot exceed 100 % opacity.
+   Inactive: one layer at 42 %, about 30 % of the active shadow's darkness. */
+@define-color window_shadow_color rgba(0, 0, 0, 1.0);
+@define-color window_shadow_color2 rgba(0, 0, 0, 0.6);
+@define-color window_shadow_color_inactive rgba(0, 0, 0, 0.42);
+
+decoration {
+  box-shadow: 0 10px 30px 2px @window_shadow_color, 0 10px 30px 2px @window_shadow_color2, 0 0 0 1px @window_border_color; }
+decoration:backdrop {
+  box-shadow: 0 10px 30px 2px @window_shadow_color_inactive, 0 0 0 1px @window_border_color; }
+.maximized decoration, .fullscreen decoration {
+  box-shadow: none; }
+.tiled decoration, .tiled-top decoration, .tiled-right decoration, .tiled-bottom decoration, .tiled-left decoration,
+.tiled decoration:backdrop, .tiled-top decoration:backdrop, .tiled-right decoration:backdrop, .tiled-bottom decoration:backdrop, .tiled-left decoration:backdrop {
+  box-shadow: 0 0 0 1px @window_border_color, 0 0 0 20px transparent; }
+.popup decoration {
+  box-shadow: none; }
+.ssd decoration, .ssd decoration:backdrop {
+  box-shadow: 0 0 0 1px @window_border_color; }
+.ssd.maximized decoration, .ssd.maximized decoration:backdrop {
+  box-shadow: none; }
+.csd.popup decoration {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.65); }
+tooltip.csd decoration {
+  box-shadow: none; }
+messagedialog.csd decoration {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 0 1px @window_border_color; }
